@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: janis-website
+    env: docker
+    repo: https://github.com/selenaroam/janis-website
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: .
+    dockerfilePath: ./Dockerfile
+    buildCommand: "composer install --no-dev --optimize-autoloader"
+    startCommand: "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /etc/database/database.sqlite
